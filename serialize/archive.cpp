@@ -3,7 +3,7 @@
 #include "archive.h"
 #include "serialization.h"
 
-#include "tools/dump.h"
+#include "../dump.h"
 
 Archive::Archive()
 {

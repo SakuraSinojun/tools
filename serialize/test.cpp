@@ -2,7 +2,7 @@
 #include "serialization.h"
 #include <list>
 #include <algorithm>
-#include "tools/dump.h"
+#include "../dump.h"
 
 class B : public Serialization {
 public:

@@ -4,14 +4,14 @@ CXX	:= g++
 LD	:= g++
 AR	:= ar
 CXXFLAGS := -Wall -O2 -Werror
-INCLUDES = -I../ -I../archive_binary
+INCLUDES = -I../
 
 TARGET	= a.out
 LINKS	= -L.
 LIBS	= -lpthread
 
 SOURCES := test.cpp
-SOURCES += ../tools/dump.cpp
+SOURCES += ../dump.cpp
 SOURCES += archive.cpp
 
 OBJS := $(SOURCES:.cpp=.o)
