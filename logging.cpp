@@ -17,6 +17,7 @@
 #include <stdarg.h>
 
 #include <iomanip>
+#include <iostream>
 
 #if defined(ANDROID)
 #include "android/log.h"
@@ -42,6 +43,9 @@ static unsigned int GetTickCount(void)
 */
 
 namespace logging {
+
+static std::ostream* g_logging_stream = &std::cout;
+
 LogMessage::LogMessage(const char * file, const char * func, int line, bool fatal)
     : file_(file)
     , func_(func)
@@ -105,8 +109,10 @@ LogMessage::~LogMessage()
 #if defined(ANDROID)
     __android_log_write(ANDROID_LOG_ERROR, LOG_TAG, oss.str().c_str());
 #else
-    printf("%s",  oss.str().c_str());
-    fflush(stdout);
+    // printf("%s",  oss.str().c_str());
+    // fflush(stdout);
+    (*g_logging_stream) << oss.str();
+    (*g_logging_stream).flush();
 #endif
     if (fatal_) {
         abort();
@@ -129,6 +135,11 @@ const char * getThreadLoggingTag()
         return NULL;
     }
     return (const char *)pthread_getspecific(g_key);
+}
+
+void setLoggingStream(std::ostream& o)
+{
+    g_logging_stream = &o;
 }
 
 } // namespace

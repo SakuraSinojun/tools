@@ -83,6 +83,8 @@ private:
 void setThreadLoggingTag(const char * tag);
 const char * getThreadLoggingTag();
 
+void setLoggingStream(std::ostream& o);
+
 } // namespace logging
 
 #if 1
