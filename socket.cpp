@@ -70,7 +70,7 @@ void CSocket::Create(void)
         m_sock = 0;
     if(m_sock == (SOCKET)(SOCKET_ERROR) || m_sock == (SOCKET)(INVALID_SOCKET))
     {
-        throw("socket() error.");
+        // throw("socket() error.");
     }
 }
 
@@ -124,7 +124,7 @@ std::string CSocket::GetHostIP(void)
 void CSocket::SetHostIP(const char * ipaddr)
 {
     if(m_bListening)
-        throw("cannot set host ip.");
+        return; // throw("cannot set host ip.");
     m_host.sin_addr.s_addr = inet_addr(ipaddr);
 }
 
@@ -136,7 +136,7 @@ int CSocket::GetHostPort(void)
 void CSocket::SetHostPort(int port)
 {
     if(m_bListening)
-        throw("cannot set host port.");
+        return; // throw("cannot set host port.");
     m_host.sin_port = htons(port);
 }
 
@@ -145,9 +145,8 @@ void CSocket::SetBroadCast(bool bBroad)
     int     onoff = 0;
     if(bBroad)
         onoff = 1;
-    if( 0 != setsockopt(m_sock, SOL_SOCKET, SO_BROADCAST, (char *)&onoff, sizeof(int)) )
-    {
-        throw(DisplayError("setsockopt"));
+    if (0 != setsockopt(m_sock, SOL_SOCKET, SO_BROADCAST, (char *)&onoff, sizeof(int))) {
+        // throw(DisplayError("setsockopt"));
     }
 }
 
@@ -166,17 +165,14 @@ void CSocket::SetNonBlock(bool bBlock)
     throw("cannot support non-block socket now.");
 #else
     if ( 0 != ioctl(m_sock, FIONBIO, &onoff)) {
-        throw(DisplayError("ioctl.FIONBIO"));
+        // throw(DisplayError("ioctl.FIONBIO"));
     }
 #endif
 }
 
-void CSocket::Listen(void)
+int CSocket::Listen(void)
 {
-    if(listen(m_sock, 10) != 0)
-    {
-        throw(DisplayError("listen"));
-    }
+    return listen(m_sock, 10);
 }
 
 int CSocket::Bind(int port)
@@ -207,7 +203,7 @@ int CSocket::Connect(const char * ipaddr, int port, int mstimeout)
     PRINTF("connect to %s:%d\n", GetRemoteIP(), GetRemotePort());
     if(mstimeout <= 0) {
         if(connect(m_sock, (struct sockaddr *)&m_remote, sizeof(m_remote)) != 0) {
-            throw(DisplayError("connect"));
+            // throw(DisplayError("connect"));
             return -1;
         }
     } else {
@@ -229,11 +225,12 @@ int CSocket::Connect(const char * ipaddr, int port, int mstimeout)
             ioctl(m_sock, FIONBIO, &ul);
 
             if(ret <= 0) {
-                throw(DisplayError("connect"));
+                // throw(DisplayError("connect"));
+                return ret;
             } else {
                 getsockopt(m_sock, SOL_SOCKET, SO_ERROR, (char *)&error, (socklen_t *)&len);
                 if(error != 0) {
-                    throw(DisplayError("connect"));
+                    // throw(DisplayError("connect"));
                     return error;
                 }
             }

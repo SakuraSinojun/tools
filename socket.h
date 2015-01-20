@@ -69,7 +69,7 @@ public:
         virtual void            OnTimeout(void);
 
 public:
-        virtual void            Listen(void);
+        virtual int             Listen(void);
         virtual int             Bind(int port = -1);
         virtual int             Connect(const char * ipaddr = NULL, int port = -1, int mstimeout = 0);
         virtual void            Accept(CSocket& sock);

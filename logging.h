@@ -110,9 +110,11 @@ void setLoggingStream(std::ostream& o);
 #endif
 extern "C" void iptv_logging_LogPrintfC(const char * file, const char * func, int line, const char * fmt, ...);
 #define LOGPRINTF(fmt, ...) iptv_logging_LogPrintfC(__FILE__, __func__, __LINE__, fmt, ##__VA_ARGS__)
+#define LOGPRINTF_P(fmt, ...) iptv_logging_LogPrintfC(NULL, NULL, __LINE__, fmt, ##__VA_ARGS__)
 #else
 void iptv_logging_LogPrintfC(const char * file, const char * func, int line, const char * fmt, ...);
 #define LOGPRINTF(fmt, ...) iptv_logging_LogPrintfC(__FILE__, __func__, __LINE__, fmt, ##__VA_ARGS__)
+#define LOGPRINTF_P(fmt, ...) iptv_logging_LogPrintfC(NULL, NULL, __LINE__, fmt, ##__VA_ARGS__)
 #define RUN_HERE() LOGPRINTF(TERMC_YELLOW"___________________ Run here!"TERMC_NONE"\n");
 #define FATAL() RUN_HERE();abort()
 #endif

@@ -151,6 +151,10 @@ extern "C" void iptv_logging_LogPrintfC(const char * file, const char * func, in
     va_start(args, fmt);
     vsnprintf(temp, sizeof(temp), fmt, args);
     va_end(args);
-    ::logging::LogMessage(file, func, line).stream() << temp;
+    if (file == NULL || func == NULL) {
+        ::logging::LogMessage().stream() << temp;
+    } else {
+        ::logging::LogMessage(file, func, line).stream() << temp;
+    }
 }
 

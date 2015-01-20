@@ -775,6 +775,9 @@ ReliableUdpSocket::STATE ReliableUdpSocket::getState(ServerSocket* s)
 void ReliableUdpSocket::registerCreator(ReliableUdpSocket::ServerSocketCreator* creator)
 {
     mCreator = creator;
+    if (mCreator == NULL) {
+        mCreator = &DefaultCreator;
+    }
 }
 
 void ReliableUdpSocket::create(DataReceiver* receiver)
