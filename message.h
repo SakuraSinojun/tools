@@ -71,7 +71,7 @@ private:
 };
 
 #define message_callfunc(_SELECTOR) (tools::MessageQueue::fnMessageObserverFuncO)(&_SELECTOR)
-
+#define TOOLS_DECLARE_MESSAGE(x) static const char * x = #x
 
 class OneWayMessageQueue : public MessageQueue
 {
