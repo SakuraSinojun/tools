@@ -70,7 +70,7 @@ private:
     std::map<std::string, ObParam>  mObs;
 };
 
-#define message_callfunc(_SELECTOR) (MessageQueue::fnMessageObserverFuncO)(&_SELECTOR)
+#define message_callfunc(_SELECTOR) (tools::MessageQueue::fnMessageObserverFuncO)(&_SELECTOR)
 
 
 class OneWayMessageQueue : public MessageQueue
