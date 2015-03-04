@@ -1,6 +1,8 @@
 
 
 #pragma once
+#ifndef __TOOLS_ARCHIVE__
+#define __TOOLS_ARCHIVE__
 
 #include <sstream>
 #include <string>
@@ -105,5 +107,5 @@ public:
     std::list<Data*> mDataList;
 };
 
-
+#endif // #define __TOOLS_ARCHIVE__
 
