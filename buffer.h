@@ -23,6 +23,9 @@ public:
     void assign(const char * data, int len);
     void assign(int size, char c = '\0');
 
+    void append(const char* data, int size);
+    void erase_before(int offset);
+
     char& at(int offset);
     char& operator[](int offset);
     char operator[] (int offset) const;

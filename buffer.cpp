@@ -90,6 +90,35 @@ void Buffer::assign(int size, char c)
     memset(data, c, size);
 }
 
+void Buffer::append(const char* buffer, int size)
+{
+    if (buffer == NULL || size <= 0)
+        return;
+
+    char * temp = new char[len + size];
+    if (len > 0)
+        memcpy(temp, data, len);
+    memcpy(temp + len, buffer, size);
+
+    if (data != NULL) {
+        delete[] data;
+    }
+    data = temp;
+    len = len + size;
+}
+
+void Buffer::erase_before(int offset)
+{
+    if (offset <= 0)
+        return;
+    if (offset >= len) {
+        assign(0);
+    } else {
+        memmove(data, data + offset, len - offset);
+        len -= offset;
+    }
+}
+
 bool Buffer::isEmpty()
 {
     return (data == NULL);
