@@ -22,6 +22,8 @@ public:
     int         nArg1;
     int         nArg2;
     int         nArg3;
+    int         nArg4;
+    int         nArg5;
     void*       pArg1;
     void*       pArg2;
     void*       pArg3;
