@@ -90,35 +90,6 @@ void Buffer::assign(int size, char c)
     memset(data, c, size);
 }
 
-void Buffer::append(const char* buffer, int size)
-{
-    if (buffer == NULL || size <= 0)
-        return;
-
-    char * temp = new char[len + size];
-    if (len > 0)
-        memcpy(temp, data, len);
-    memcpy(temp + len, buffer, size);
-
-    if (data != NULL) {
-        delete[] data;
-    }
-    data = temp;
-    len = len + size;
-}
-
-void Buffer::erase_before(int offset)
-{
-    if (offset <= 0)
-        return;
-    if (offset >= len) {
-        assign(0);
-    } else {
-        memmove(data, data + offset, len - offset);
-        len -= offset;
-    }
-}
-
 bool Buffer::isEmpty()
 {
     return (data == NULL);
@@ -140,10 +111,19 @@ char& Buffer::operator[](int offset)
     return at(offset);
 }
 
+char Buffer::operator[] (int offset) const
+{
+    if (offset >= len || offset < -len) {
+        return *(char*)NULL;
+    }
+    if (offset < 0) {
+        return data[len + offset];
+    }
+    return data[offset];
+}
+
 
 } // namespace tools
-
-#ifdef __TOOLS_ARCHIVE__
 
 Archive& operator<<(Archive& ar, tools::Buffer& buf)
 {
@@ -162,7 +142,6 @@ Archive& operator>>(Archive& ar, tools::Buffer& buf)
     delete data;
     return ar;
 }
-#endif
 
 std::ostream& operator<<(std::ostream& o, tools::Buffer& ub)
 {
